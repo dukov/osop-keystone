@@ -1,0 +1,20 @@
+# permissions to do viewer keystoneservers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: keystoneserver-viewer-role
+rules:
+- apiGroups:
+  - openstack.osop.org
+  resources:
+  - keystoneservers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - openstack.osop.org
+  resources:
+  - keystoneservers/status
+  verbs:
+  - get

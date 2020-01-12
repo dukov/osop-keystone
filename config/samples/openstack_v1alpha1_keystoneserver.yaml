@@ -1,0 +1,7 @@
+apiVersion: openstack.osop.org/v1alpha1
+kind: KeystoneServer
+metadata:
+  name: keystoneserver-sample
+spec:
+  # Add fields here
+  foo: bar

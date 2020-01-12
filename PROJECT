@@ -1,0 +1,7 @@
+domain: osop.org
+repo: github.com/dukov/osop-keystone
+resources:
+- group: openstack
+  kind: KeystoneServer
+  version: v1alpha1
+version: "2"
