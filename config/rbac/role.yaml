@@ -9,6 +9,24 @@ rules:
 - apiGroups:
   - openstack.osop.org
   resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - openstack.osop.org
+  resources:
+  - deployments/status
+  verbs:
+  - get
+- apiGroups:
+  - openstack.osop.org
+  resources:
   - keystoneservers
   verbs:
   - create
