@@ -99,8 +99,9 @@ func (r *KeystoneServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.KeystoneServer) (corev1.ConfigMap, error) {
 	cfg := make(map[string]string)
+	mergeConfig(KeystoneConfigDefaults, srv.Spec.Config)
 	var content []string
-	for section, opts := range srv.Spec.Config {
+	for section, opts := range KeystoneConfigDefaults {
 		content = append(content, fmt.Sprintf("[%s]", section))
 		for key, val := range opts {
 			content = append(content, fmt.Sprintf("%s = %s", key, val))
