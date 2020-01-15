@@ -1,7 +1,8 @@
 apiVersion: openstack.osop.org/v1alpha1
 kind: KeystoneServer
 metadata:
-  name: keystoneserver-sample
+  name: ks
 spec:
-  # Add fields here
-  foo: bar
+  image: docker.io/openstackhelm/keystone:stein-ubuntu_bionic
+  release: Stein
+  replicas: 1

@@ -23,7 +23,7 @@ import (
 type KeystoneServerSpec struct {
 	Image    string                    `json:"image,omitempty"`
 	Release  string                    `json:"release,omitempty"`
-	Replicas int32                     `json:"replicas,omitempty"`
+	Replicas *int32                    `json:"replicas,omitempty"`
 	Config   map[string]KyestoneConfig `json:"config,omitempty"`
 }
 
