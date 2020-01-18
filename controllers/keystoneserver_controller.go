@@ -29,6 +29,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	openstackv1alpha1 "github.com/dukov/osop-keystone/api/v1alpha1"
+
+	commonk8s "github.com/dukov/osop-common/pkg/k8s"
 )
 
 var (
@@ -112,64 +114,25 @@ func (r *KeystoneServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.KeystoneServer) (k8sapps.Deployment, error) {
-	dep := k8sapps.Deployment{
-		TypeMeta: metav1.TypeMeta{APIVersion: k8sapps.SchemeGroupVersion.String(), Kind: "Deployment"},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      srv.Name,
-			Namespace: srv.Namespace,
-			Labels: map[string]string{
-				"component": "api",
-			},
-		},
-		Spec: k8sapps.DeploymentSpec{
-			Selector: &metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"component": "api",
-				},
-			},
-			Replicas: srv.Spec.Replicas,
-			Template: corev1.PodTemplateSpec{
-				ObjectMeta: metav1.ObjectMeta{
-					Labels: map[string]string{
-						"component": "api",
-					},
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						corev1.Container{
-							Name:    "keystone-api",
-							Image:   srv.Spec.Image,
-							Command: []string{"keystone-wsgi-public"},
-							VolumeMounts: []corev1.VolumeMount{
-								corev1.VolumeMount{
-									Name:      "etc-keystone",
-									MountPath: "/etc/keystone/keystone.conf",
-									SubPath:   "keystone.conf",
-								},
-							},
-						},
-					},
-					Volumes: []corev1.Volume{
-						corev1.Volume{
-							Name: "etc-keystone",
-							VolumeSource: corev1.VolumeSource{
-								ConfigMap: &corev1.ConfigMapVolumeSource{
-									LocalObjectReference: corev1.LocalObjectReference{
-										Name: srv.Name,
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
+	vol := commonk8s.NewVolume("etc-keystone", srv.Name)
+	container := commonk8s.NewContainer("keystone-api", srv.Spec.Image, []string{"keystone-wsgi-public"})
+	volMount := corev1.VolumeMount{
+		Name:      "etc-keystone",
+		MountPath: "/etc/keystone/keystone.conf",
+		SubPath:   "keystone.conf",
 	}
+	container.AddVolume(volMount)
+	labels := map[string]string{
+		"component": "api",
+	}
+	depl := commonk8s.NewDeployment(srv.Name, srv.Namespace, srv.Spec.Replicas, labels)
+	depl.AddContainer(container)
+	depl.AddVolume(vol)
 
-	if err := ctrl.SetControllerReference(&srv, &dep, r.Scheme); err != nil {
-		return dep, err
+	if err := ctrl.SetControllerReference(&srv, &depl.Obj, r.Scheme); err != nil {
+		return depl.Obj, err
 	}
-	return dep, nil
+	return depl.Obj, nil
 }
 
 func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.KeystoneServer) (corev1.ConfigMap, error) {
