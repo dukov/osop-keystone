@@ -115,24 +115,26 @@ func (r *KeystoneServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.KeystoneServer) (k8sapps.Deployment, error) {
 	vol := commonk8s.NewVolume("etc-keystone", srv.Name)
+
 	container := commonk8s.NewContainer("keystone-api", srv.Spec.Image, []string{"keystone-wsgi-public"})
 	volMount := corev1.VolumeMount{
 		Name:      "etc-keystone",
-		MountPath: "/etc/keystone/keystone.conf",
-		SubPath:   "keystone.conf",
+		MountPath: "/etc/keystone",
 	}
+
 	container.AddVolume(volMount)
 	labels := map[string]string{
 		"component": "api",
 	}
+
 	depl := commonk8s.NewDeployment(srv.Name, srv.Namespace, srv.Spec.Replicas, labels)
 	depl.AddContainer(container)
 	depl.AddVolume(vol)
 
-	if err := ctrl.SetControllerReference(&srv, &depl.Obj, r.Scheme); err != nil {
-		return depl.Obj, err
+	if err := ctrl.SetControllerReference(&srv, depl.Obj, r.Scheme); err != nil {
+		return *depl.Obj, err
 	}
-	return depl.Obj, nil
+	return *depl.Obj, nil
 }
 
 func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.KeystoneServer) (corev1.ConfigMap, error) {
