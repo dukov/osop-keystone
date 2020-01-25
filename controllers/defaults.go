@@ -61,3 +61,11 @@ var KeystoneConfigDefaults = osconf.IniFile{
 		"provider":   "fernet",
 	},
 }
+
+var PolicyDefaults = osconf.Policy{
+	"identity:create_identity_providers": "rule:identity:create_identity_provider",
+	"identity:get_identity_providers":    "rule:identity:get_identity_provider",
+	"identity:update_identity_providers": "rule:identity:update_identity_provider",
+	"identity:delete_identity_providers": "rule:identity:delete_identity_provider",
+	"identity:get_mapping":               "rule:identity:list_mappings",
+}

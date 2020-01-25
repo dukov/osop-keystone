@@ -140,7 +140,8 @@ func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.Keyston
 	KeystoneConfigDefaults.Merge(srv.Spec.Config)
 	cfg[KyestoneConfigFilename] = KeystoneConfigDefaults.ToString()
 
-	cfg[KyestoneConfigFilename] = strings.Join(content, "\n")
+	PolicyDefaults.Merge(srv.Spec.Policy)
+	cfg[KyestonePolicyFilename] = PolicyDefaults.ToString()
 
 	cm := corev1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{APIVersion: corev1.SchemeGroupVersion.String(), Kind: "ConfigMap"},

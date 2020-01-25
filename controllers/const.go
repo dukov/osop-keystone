@@ -18,4 +18,5 @@ package controllers
 // Configuration constants
 const (
 	KyestoneConfigFilename = "keystone.conf"
+	KyestonePolicyFilename = "policy.yaml"
 )

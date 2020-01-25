@@ -44,6 +44,11 @@ spec:
               type: object
             image:
               type: string
+            policy:
+              additionalProperties:
+                type: string
+              description: Policy abstraction for service policy.yaml
+              type: object
             release:
               type: string
             replicas:

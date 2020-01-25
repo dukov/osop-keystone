@@ -26,6 +26,7 @@ type KeystoneServerSpec struct {
 	Release  string         `json:"release,omitempty"`
 	Replicas *int32         `json:"replicas,omitempty"`
 	Config   osconf.IniFile `json:"config,omitempty"`
+	Policy   osconf.Policy  `json:"policy,omitempty"`
 }
 
 // KeystoneServerStatus defines the observed state of KeystoneServer
