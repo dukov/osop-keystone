@@ -15,11 +15,11 @@ limitations under the License.
 package controllers
 
 import (
-	openstackv1alpha1 "github.com/dukov/osop-keystone/api/v1alpha1"
+	osconf "github.com/dukov/osop-common/pkg/openstack/config"
 )
 
 // KeystoneConfigDefaults default values for keystone.conf
-var KeystoneConfigDefaults = map[string]openstackv1alpha1.KyestoneConfig{
+var KeystoneConfigDefaults = osconf.IniFile{
 	"DEFAULT": map[string]string{
 		"max_token_size": "255",
 		"transport_url":  "rabbit://user:password@rabbit",

@@ -13,17 +13,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package controllers
-
-import openstackv1alpha1 "github.com/dukov/osop-keystone/api/v1alpha1"
-
-func mergeConfig(def, update map[string]openstackv1alpha1.KyestoneConfig) {
-	for section, opts := range update {
-		if defOpts, ok := def[section]; !ok {
-			def[section] = opts
-		} else {
-			for key, val := range opts {
-				defOpts[key] = val
-			}
-		}
-	}
-}

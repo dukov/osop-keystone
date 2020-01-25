@@ -16,19 +16,17 @@ limitations under the License.
 package v1alpha1
 
 import (
+	osconf "github.com/dukov/osop-common/pkg/openstack/config"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // KeystoneServerSpec defines the desired state of KeystoneServer
 type KeystoneServerSpec struct {
-	Image    string                    `json:"image,omitempty"`
-	Release  string                    `json:"release,omitempty"`
-	Replicas *int32                    `json:"replicas,omitempty"`
-	Config   map[string]KyestoneConfig `json:"config,omitempty"`
+	Image    string         `json:"image,omitempty"`
+	Release  string         `json:"release,omitempty"`
+	Replicas *int32         `json:"replicas,omitempty"`
+	Config   osconf.IniFile `json:"config,omitempty"`
 }
-
-// KyestoneConfig configuration parameters for keystone
-type KyestoneConfig map[string]string
 
 // KeystoneServerStatus defines the observed state of KeystoneServer
 type KeystoneServerStatus struct {

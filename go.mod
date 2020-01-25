@@ -3,7 +3,7 @@ module github.com/dukov/osop-keystone
 go 1.13
 
 require (
-	github.com/dukov/osop-common v0.0.0-20200120192108-dd4b59779492
+	github.com/dukov/osop-common v0.0.0-20200125101549-1fb961c47e3f
 	github.com/go-logr/logr v0.1.0
 	github.com/google/martian v2.1.0+incompatible
 	github.com/onsi/ginkgo v1.10.1

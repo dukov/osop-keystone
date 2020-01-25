@@ -17,8 +17,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
-	"strings"
 
 	"github.com/go-logr/logr"
 	k8sapps "k8s.io/api/apps/v1"
@@ -139,14 +137,8 @@ func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.Keysto
 
 func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.KeystoneServer) (corev1.ConfigMap, error) {
 	cfg := make(map[string]string)
-	mergeConfig(KeystoneConfigDefaults, srv.Spec.Config)
-	var content []string
-	for section, opts := range KeystoneConfigDefaults {
-		content = append(content, fmt.Sprintf("[%s]", section))
-		for key, val := range opts {
-			content = append(content, fmt.Sprintf("%s = %s", key, val))
-		}
-	}
+	KeystoneConfigDefaults.Merge(srv.Spec.Config)
+	cfg[KyestoneConfigFilename] = KeystoneConfigDefaults.ToString()
 
 	cfg[KyestoneConfigFilename] = strings.Join(content, "\n")
 

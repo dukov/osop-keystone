@@ -38,8 +38,9 @@ spec:
               additionalProperties:
                 additionalProperties:
                   type: string
-                description: KyestoneConfig configuration parameters for keystone
+                description: Section abstraction
                 type: object
+              description: IniFile abstraction
               type: object
             image:
               type: string
