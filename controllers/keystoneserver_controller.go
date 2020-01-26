@@ -120,7 +120,14 @@ func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.Keysto
 		MountPath: "/etc/keystone",
 	}
 
+	apacheMount := corev1.VolumeMount{
+		Name:      "etc-keystone",
+		MountPath: "/etc/apache2/conf-enabled/" + ApacheWSGIFilename,
+		SubPath:   ApacheWSGIFilename,
+	}
+
 	container.AddVolume(volMount)
+	container.AddVolume(apacheMount)
 	labels := map[string]string{
 		"component": "api",
 	}
@@ -142,6 +149,8 @@ func (r *KeystoneServerReconciler) createConfigMap(srv openstackv1alpha1.Keyston
 
 	PolicyDefaults.Merge(srv.Spec.Policy)
 	cfg[KyestonePolicyFilename] = PolicyDefaults.ToString()
+
+	cfg[ApacheWSGIFilename] = ApacheConfig
 
 	cm := corev1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{APIVersion: corev1.SchemeGroupVersion.String(), Kind: "ConfigMap"},

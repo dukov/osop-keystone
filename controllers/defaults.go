@@ -69,3 +69,26 @@ var PolicyDefaults = osconf.Policy{
 	"identity:delete_identity_providers": "rule:identity:delete_identity_provider",
 	"identity:get_mapping":               "rule:identity:list_mappings",
 }
+
+var ApacheConfig = `
+Listen 0.0.0.0:5000
+
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" proxy
+
+<VirtualHost *:5000>
+    WSGIDaemonProcess keystone-public processes=1 threads=1 user=keystone group=keystone display-name=%{GROUP}
+    WSGIProcessGroup keystone-public
+    WSGIScriptAlias / /var/www/cgi-bin/keystone/keystone-wsgi-public
+    WSGIApplicationGroup %{GLOBAL}
+    WSGIPassAuthorization On
+    <IfVersion >= 2.4>
+      ErrorLogFormat "%{cu}t %M"
+    </IfVersion>
+    ErrorLog /dev/stdout
+
+    SetEnvIf X-Forwarded-For "^.*\..*\..*\..*" forwarded
+    CustomLog /dev/stdout combined env=!forwarded
+    CustomLog /dev/stdout proxy env=forwarded
+</VirtualHost>
+`

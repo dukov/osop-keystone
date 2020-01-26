@@ -19,4 +19,5 @@ package controllers
 const (
 	KyestoneConfigFilename = "keystone.conf"
 	KyestonePolicyFilename = "policy.yaml"
+	ApacheWSGIFilename     = "wsgi-keystone.conf"
 )
