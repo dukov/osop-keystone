@@ -123,10 +123,12 @@ func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.Keysto
 	kConf := corev1.VolumeMount{
 		Name:      "etc-keystone",
 		MountPath: path.Join("/etc/keystone", KyestoneConfigFilename),
+		SubPath:   KyestoneConfigFilename,
 	}
 	kPolicy := corev1.VolumeMount{
 		Name:      "etc-keystone",
 		MountPath: path.Join("/etc/keystone", KyestonePolicyFilename),
+		SubPath:   KyestonePolicyFilename,
 	}
 	apacheMount := corev1.VolumeMount{
 		Name:      "etc-keystone",
