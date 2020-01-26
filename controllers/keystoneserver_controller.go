@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	"path"
 
 	"github.com/go-logr/logr"
 	k8sapps "k8s.io/api/apps/v1"
@@ -113,21 +114,39 @@ func (r *KeystoneServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.KeystoneServer) (k8sapps.Deployment, error) {
 	vol := commonk8s.NewVolume("etc-keystone", srv.Name)
+	apacheLog := commonk8s.NewEmptyVolume("apache-log")
+	apacheRun := commonk8s.NewEmptyVolume("apache-run")
 
-	container := commonk8s.NewContainer("keystone-api", srv.Spec.Image, []string{"keystone-wsgi-public"})
-	volMount := corev1.VolumeMount{
+	container := commonk8s.NewContainer("keystone-api", srv.Spec.Image, []string{"apache2", "-D", "FOREGROUND"})
+	container.Obj.Env = ServerEnvVars
+
+	kConf := corev1.VolumeMount{
 		Name:      "etc-keystone",
-		MountPath: "/etc/keystone",
+		MountPath: path.Join("/etc/keystone", KyestoneConfigFilename),
 	}
-
+	kPolicy := corev1.VolumeMount{
+		Name:      "etc-keystone",
+		MountPath: path.Join("/etc/keystone", KyestonePolicyFilename),
+	}
 	apacheMount := corev1.VolumeMount{
 		Name:      "etc-keystone",
-		MountPath: "/etc/apache2/conf-enabled/" + ApacheWSGIFilename,
+		MountPath: path.Join("/etc/apache2/sites-enabled", ApacheWSGIFilename),
 		SubPath:   ApacheWSGIFilename,
 	}
+	aLogM := corev1.VolumeMount{
+		Name:      "apache-log",
+		MountPath: "/var/log/apache2",
+	}
+	aRunM := corev1.VolumeMount{
+		Name:      "apache-run",
+		MountPath: "/var/run/apache2",
+	}
 
-	container.AddVolume(volMount)
+	container.AddVolume(kConf)
+	container.AddVolume(kPolicy)
 	container.AddVolume(apacheMount)
+	container.AddVolume(aLogM)
+	container.AddVolume(aRunM)
 	labels := map[string]string{
 		"component": "api",
 	}
@@ -135,6 +154,8 @@ func (r *KeystoneServerReconciler) createDeployment(srv openstackv1alpha1.Keysto
 	depl := commonk8s.NewDeployment(srv.Name, srv.Namespace, srv.Spec.Replicas, labels)
 	depl.AddContainer(container)
 	depl.AddVolume(vol)
+	depl.AddVolume(apacheLog)
+	depl.AddVolume(apacheRun)
 
 	if err := ctrl.SetControllerReference(&srv, depl.Obj, r.Scheme); err != nil {
 		return *depl.Obj, err

@@ -15,6 +15,8 @@ limitations under the License.
 package controllers
 
 import (
+	corev1 "k8s.io/api/core/v1"
+
 	osconf "github.com/dukov/osop-common/pkg/openstack/config"
 )
 
@@ -92,3 +94,30 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
     CustomLog /dev/stdout proxy env=forwarded
 </VirtualHost>
 `
+
+var ServerEnvVars = []corev1.EnvVar{
+	corev1.EnvVar{
+		Name:  "APACHE_RUN_USER",
+		Value: "www-data",
+	},
+	corev1.EnvVar{
+		Name:  "APACHE_RUN_GROUP",
+		Value: "www-data",
+	},
+	corev1.EnvVar{
+		Name:  "APACHE_PID_FILE",
+		Value: "/var/run/apache2/apache2.pid",
+	},
+	corev1.EnvVar{
+		Name:  "APACHE_RUN_DIR",
+		Value: "/var/run/apache2",
+	},
+	corev1.EnvVar{
+		Name:  "APACHE_LOCK_DIR",
+		Value: "/var/lock/apache2",
+	},
+	corev1.EnvVar{
+		Name:  "APACHE_LOG_DIR",
+		Value: "/var/log/apache2",
+	},
+}

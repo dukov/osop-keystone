@@ -44,14 +44,10 @@ github.com/docker/docker v0.7.3-0.20190327010347-be7ac8be2ae0/go.mod h1:eEKB0N0r
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
 github.com/docker/spdystream v0.0.0-20160310174837-449fdfce4d96/go.mod h1:Qh8CwZgvJUkLughtfhJv5dyTYa91l1fOUCrgjqmcifM=
 github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815/go.mod h1:WwZ+bS3ebgob9U8Nd0kOddGdZWjyMGR8Wziv+TBNwSE=
-github.com/dukov/osop-common v0.0.0-20200118170926-a2862aeee26a h1:FLa9F67Zx6Sd8DFyHdQpTBX33Eof2cI0ItmcKzJgIbI=
-github.com/dukov/osop-common v0.0.0-20200118170926-a2862aeee26a/go.mod h1:cXgXhTe3s3XmGR1rWXLz8+FhkF20nz1PF/3gF8RDqqE=
-github.com/dukov/osop-common v0.0.0-20200120192108-dd4b59779492 h1:NZmtHz1nwZiNh4i8l/2V3xbMrLLpGmdiRgxNe9hJnnY=
-github.com/dukov/osop-common v0.0.0-20200120192108-dd4b59779492/go.mod h1:cXgXhTe3s3XmGR1rWXLz8+FhkF20nz1PF/3gF8RDqqE=
-github.com/dukov/osop-common v0.0.0-20200122195443-ebb73f544a2c h1:wmR5W2Rike1bmSpCVoTVDvf4M/DofNPHAgB8lUBYJPI=
-github.com/dukov/osop-common v0.0.0-20200122195443-ebb73f544a2c/go.mod h1:cXgXhTe3s3XmGR1rWXLz8+FhkF20nz1PF/3gF8RDqqE=
 github.com/dukov/osop-common v0.0.0-20200125101549-1fb961c47e3f h1:t78mJI5Uta0Bu0KA5+v0oS9b15KbIZjAMFE7zNidmdo=
 github.com/dukov/osop-common v0.0.0-20200125101549-1fb961c47e3f/go.mod h1:lNvl/hM5h1vpFN3CjJOmGViCaQ90o5BNoV/XsHmuUA8=
+github.com/dukov/osop-common v0.0.0-20200126171547-dab6c8f51ef9 h1:/HhhROSAYF6KHDIBV2aZJlkiNQaPv6uSj84T0hqw9Do=
+github.com/dukov/osop-common v0.0.0-20200126171547-dab6c8f51ef9/go.mod h1:lNvl/hM5h1vpFN3CjJOmGViCaQ90o5BNoV/XsHmuUA8=
 github.com/elazarl/goproxy v0.0.0-20170405201442-c4fc26588b6e/go.mod h1:/Zj4wYkgs4iZTTu3o/KG3Itv/qCCa8VVMlb3i9OVuzc=
 github.com/emicklei/go-restful v0.0.0-20170410110728-ff4f55a20633/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=
 github.com/emicklei/go-restful v2.9.5+incompatible/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=
@@ -236,6 +232,7 @@ github.com/stretchr/testify v0.0.0-20151208002404-e3a8ff8ce365/go.mod h1:a8OnRci
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
+github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20170815181823-89b8d40f7ca8/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
 github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8/go.mod h1:VFNgLljTbGfSG7qAOspJ7OScBnGdDN/yBr0sguwnwf0=
